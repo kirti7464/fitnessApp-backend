@@ -60,11 +60,17 @@ const createUser = async function(req,res){
 const loginUser =async function (req,res){
     try{
         let {email,password} = req.body
-        if(!email || !password){
-            return res.status(400).send("Please provide data for logging in")
+        if(!email ){
+            return res.status(400).send("Please provide email for logging in")
         }
-        if(!isValidEmail(email)||!isValidPass(password)){
-            return res.status(400).send("Please provide data in correct format")
+        if(!isValidEmail(email)){
+            return res.status(400).send("Please provide email in correct format")
+        }
+        if(!password){
+            return res.status(400).send("Please provide password for logging in")
+        }
+        if(!isValidPass(password)){
+            return res.status(400).send("Incorrect password")
         }
         let user = await userModel.findOne({email:email})
         if(!user){
