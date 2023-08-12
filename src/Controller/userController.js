@@ -66,15 +66,16 @@ const loginUser =async function (req,res){
         if(!isValidEmail(email)){
             return res.status(400).send("Please provide email in correct format")
         }
+        
+        let user = await userModel.findOne({email:email})
+        if(!user){
+            return res.status(401).send("There is no user with this email")
+        }
         if(!password){
             return res.status(400).send("Please provide password for logging in")
         }
         if(!isValidPass(password)){
             return res.status(400).send("Incorrect password")
-        }
-        let user = await userModel.findOne({email:email})
-        if(!user){
-            return res.status(401).send("There is no user with this email")
         }
         const passwordStatus = await comparePassword(password,user.password)
         if(!passwordStatus) return res.status(401).send("Incorrect password")
