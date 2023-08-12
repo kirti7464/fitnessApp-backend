@@ -10,8 +10,17 @@ const createUser = async function(req,res){
         if(!isValidRequestBody(req.body)){
             return res.status(400).send("Please provide data in for registering user")
         }
-        if(!name || !email || !password || !phone){
-            return res.status(400).send("Please provide all data fields")
+        if(!name ){
+            return res.status(400).send("Please provide name")
+        }
+        if(!email ){
+            return res.status(400).send("Please provide email")
+        }
+        if(!password ){
+            return res.status(400).send("Please provide password")
+        }
+        if(!phone ){
+            return res.status(400).send("Please provide phone")
         }
         if(!isValid(name)|| name.length<3 ||!isValidEmail(email)||!isValidPass(password)||!isValidMobileNum(phone)){
             return res.status(400).send("Please provide data in correct format")
