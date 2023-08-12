@@ -10,42 +10,40 @@ const createUser = async function(req,res){
         if(!isValidRequestBody(req.body)){
             return res.status(400).send("Please provide data in for registering user")
         }
-        if(!name ){
+          if(!name ){
             return res.status(400).send("Please provide name")
         }
-        if(!email ){
-            return res.status(400).send("Please provide email")
-        }
-        
-        if(!phone ){
-            return res.status(400).send("Please provide contact number")
-        }
-        if(!password ){
-            return res.status(400).send("Please provide password")
-        }
-         if(!isValid(name)){
+        if(!isValid(name)){
             return res.status(400).send("Please provide valid name")
         }
         if(name.length<3 ){
             return res.status(400).send("Please provide valid name")
         }
+        if(!email ){
+            return res.status(400).send("Please provide email")
+        }
         if(!isValidEmail(email) ){
             return res.status(400).send("Please provide valid email")
         }
-        if(!isValidMobileNum(phone)){
-            return res.status(400).send("Please provide valid contact number")
-        }
-        if(!isValidPass(password)){
-            return res.status(400).send("Password requires 8+ characters, lowercase, uppercase, digit, special character")
-        }
-        
         let dupliEmail = await userModel.findOne({email:email})
         if(dupliEmail){
             return res.status(400).send("Please provide unregistered email")
         }
+        if(!phone ){
+            return res.status(400).send("Please provide phone")
+        }
+        if(!isValidMobileNum(phone)){
+            return res.status(400).send("Please provide valid contact number")
+        }
         let dupliPhone = await userModel.findOne({phone:phone})
         if(dupliPhone){
             return res.status(400).send("Please provide unregistered phone number")
+        }
+        if(!password ){
+            return res.status(400).send("Please provide password")
+        }
+        if(!isValidPass(password)){
+            return res.status(400).send("Password requires 8+ characters, lowercase, uppercase, digit, special character")
         }
         const hasspassword=await hassPassWord(password)
         let user =await userModel.create({name,email ,password:hasspassword,phone })
