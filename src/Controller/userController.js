@@ -13,10 +13,7 @@ const createUser = async function(req,res){
           if(!name ){
             return res.status(400).send("Please provide name")
         }
-        if(!isValid(name)){
-            return res.status(400).send("Please provide valid name")
-        }
-        if(name.length<3 ){
+        if(!isValid(name) || name.length<3){
             return res.status(400).send("Please provide valid name")
         }
         if(!email ){
