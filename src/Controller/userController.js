@@ -16,16 +16,29 @@ const createUser = async function(req,res){
         if(!email ){
             return res.status(400).send("Please provide email")
         }
+        
+        if(!phone ){
+            return res.status(400).send("Please provide contact number")
+        }
         if(!password ){
             return res.status(400).send("Please provide password")
         }
-        if(!phone ){
-            return res.status(400).send("Please provide phone")
+         if(!isValid(name)){
+            return res.status(400).send("Please provide valid name")
         }
-        if(!isValid(name)|| name.length<3 ||!isValidEmail(email)||!isValidPass(password)||!isValidMobileNum(phone)){
-            return res.status(400).send("Please provide data in correct format")
+        if(name.length<3 ){
+            return res.status(400).send("Please provide valid name")
         }
-
+        if(!isValidEmail(email) ){
+            return res.status(400).send("Please provide valid email")
+        }
+        if(!isValidMobileNum(phone)){
+            return res.status(400).send("Please provide valid contact number")
+        }
+        if(!isValidPass(password)){
+            return res.status(400).send("Password requires 8+ characters, lowercase, uppercase, digit, special character")
+        }
+        
         let dupliEmail = await userModel.findOne({email:email})
         if(dupliEmail){
             return res.status(400).send("Please provide unregistered email")
